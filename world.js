@@ -1,18 +1,14 @@
-console.log("JS is running");
-
 window.onload = function() {
 
-    const lookupBtn = document.getElementById("lookup");
+    const lookupCountry = document.getElementById("lookup-country");
+    const lookupCities = document.getElementById("lookup-cities");
     const resultDiv = document.getElementById("result");
 
-    lookupBtn.addEventListener("click", function(e) {
-        e.preventDefault();
+    function performLookup(type) {
+        const country = document.getElementById("country").value.trim();
 
-        const country = document.getElementById("country").value;
-
-        // Open AJAX request
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", "world.php?country=" + encodeURIComponent(country), true);
+        xhr.open("GET", "world.php?country=" + encodeURIComponent(country) + "&lookup=" + type, true);
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
@@ -21,5 +17,16 @@ window.onload = function() {
         };
 
         xhr.send();
+    }
+
+    lookupCountry.addEventListener("click", function(e) {
+        e.preventDefault();
+        performLookup("country");
+    });
+
+    lookupCities.addEventListener("click", function(e) {
+        e.preventDefault();
+        performLookup("cities");
     });
 };
+
